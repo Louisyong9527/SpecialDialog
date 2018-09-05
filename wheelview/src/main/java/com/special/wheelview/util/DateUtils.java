@@ -34,7 +34,7 @@ public class DateUtils {
      * Description 获取最近一年日期
      * @return  最近一年的日期list
      */
-    private ArrayList<String> getRecentOneYearDateList() {
+    public static ArrayList<String> getRecentOneYearDateList() {
 
         ArrayList<String> list = new ArrayList<String>();
 
