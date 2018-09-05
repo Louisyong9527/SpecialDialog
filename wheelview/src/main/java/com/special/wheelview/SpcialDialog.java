@@ -37,7 +37,7 @@ import java.util.List;
  *
  * @author venshine
  */
-public class SpcialDialog<T> implements View.OnClickListener {
+public class SpcialDialog<T> {
 
     private TextView mTitle;
 
@@ -47,7 +47,7 @@ public class SpcialDialog<T> implements View.OnClickListener {
 
     private WheelView.WheelViewStyle mStyle;
 
-    private TextView mButton;
+    private TextView mButtonOk;
 
     private AlertDialog mDialog;
 
@@ -58,6 +58,7 @@ public class SpcialDialog<T> implements View.OnClickListener {
     private int mSelectedPos;
 
     private T mSelectedText;
+    private Button mButtonCancle;
 
     public SpcialDialog(Context context) {
         mContext = context;
@@ -69,20 +70,19 @@ public class SpcialDialog<T> implements View.OnClickListener {
         mDialog = new AlertDialog.Builder(mContext).create();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view= inflater.inflate(R.layout.dialog_layout, null);
+        View view = inflater.inflate(R.layout.dialog_layout, null);
 
         mTitle = (TextView) view.findViewById(R.id.tv_title);
-        mWheelView=(WheelView)view.findViewById(R.id.wv_wheelview);
-        mButton=(Button)view.findViewById(R.id.btn_button);
-        mButton.setClickable(true);
-        mButton.setOnClickListener(this);
+        mWheelView = (WheelView) view.findViewById(R.id.wv_wheelview);
+        mButtonOk = (Button) view.findViewById(R.id.btn_button_ok);
+        mButtonCancle = (Button) view.findViewById(R.id.btn_button_cancle);
         mWheelView.setWheelAdapter(new ArrayWheelAdapter(mContext));
         mWheelView.setSkin(WheelView.Skin.Holo);
         mStyle = new WheelView.WheelViewStyle();
         mStyle.textColor = WheelConstants.WHEEL_TEXT_COLOR;
         //mStyle.selectedTextColor=R.color.gold_1;
         mStyle.selectedTextZoom = 1.2f;
-        mStyle.textAlpha=1.0f;
+        mStyle.textAlpha = 1.0f;
         mWheelView.setStyle(mStyle);
         mWheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener<T>() {
             @Override
@@ -92,8 +92,33 @@ public class SpcialDialog<T> implements View.OnClickListener {
             }
         });
 
+        mButtonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //确定按钮
+                dismiss();
+
+                if (null != mOnDialogItemClickListener) {
+                    mOnDialogItemClickListener.onItemClick(mSelectedPos, mSelectedText,true);
+                }
+            }
+        });
+        mButtonCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //取消按钮
+                dismiss();
+
+                if (null != mOnDialogItemClickListener) {
+                    mOnDialogItemClickListener.onItemClick(mSelectedPos, mSelectedText,false);
+                }
+
+            }
+        });
+
+
         mDialog.setView(view);
-        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCanceledOnTouchOutside(true);
     }
 
     /**
@@ -156,13 +181,24 @@ public class SpcialDialog<T> implements View.OnClickListener {
     }
 
     /**
-     * 设置按钮文本
+     * 设置确定按钮文本
      *
      * @param text
      * @return
      */
     public SpcialDialog setButtonText(String text) {
-        mButton.setText(text);
+        mButtonOk.setText(text);
+        return this;
+    }
+
+    /**
+     * 设置取消按钮文本
+     *
+     * @param text
+     * @return
+     */
+    public SpcialDialog setCancleButtonText(String text) {
+        mButtonCancle.setText(text);
         return this;
     }
 
@@ -173,7 +209,7 @@ public class SpcialDialog<T> implements View.OnClickListener {
      * @return
      */
     public SpcialDialog setButtonColor(int color) {
-        mButton.setTextColor(color);
+        mButtonOk.setTextColor(color);
         return this;
     }
 
@@ -184,7 +220,7 @@ public class SpcialDialog<T> implements View.OnClickListener {
      * @return
      */
     public SpcialDialog setButtonSize(int size) {
-        mButton.setTextSize(size);
+        mButtonOk.setTextSize(size);
         return this;
     }
 
@@ -257,15 +293,16 @@ public class SpcialDialog<T> implements View.OnClickListener {
         return this;
     }
 
-    @Override
-    public void onClick(View v) {
-        dismiss();
-        if (null != mOnDialogItemClickListener) {
-            mOnDialogItemClickListener.onItemClick(mSelectedPos, mSelectedText);
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        dismiss();
+//
+//        if (null != mOnDialogItemClickListener) {
+//            mOnDialogItemClickListener.onItemClick(mSelectedPos, mSelectedText);
+//        }
+//    }
 
     public interface OnDialogItemClickListener<T> {
-        void onItemClick(int position, T s);
+        void onItemClick(int position, T s,boolean clickType);
     }
 }

@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mDialog = new SpcialDialog(this);
 
-        mDialog.setTitle("").setItems(createArrays()).setButtonText("确定").setDialogStyle(Color
+        mDialog.setTitle("").setItems(createArrays()).setButtonText("确定").setCancleButtonText("清空").setSelection(2).setDialogStyle(Color
                 .parseColor("#895D13")).setCount(3).show();
 
 
 
         mDialog.setOnDialogItemClickListener(new SpcialDialog.OnDialogItemClickListener() {
             @Override
-            public void onItemClick(int position, Object s) {
+            public void onItemClick(int position, Object s,boolean clickType) {
                 Toast.makeText(MainActivity.this, s.toString(), Toast.LENGTH_SHORT).show();
             }
         });

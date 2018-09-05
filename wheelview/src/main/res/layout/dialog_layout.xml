@@ -36,15 +36,39 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
 
-        <Button
-            android:id="@+id/btn_button"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/ic_button_bg"
-            android:textColor="#ffffff"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_width="180dp"
-            android:layout_height="35dp" />
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_button_cancle"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ic_button_bg"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginRight="25dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"/>
+
+            <Button
+                android:id="@+id/btn_button_ok"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:background="@drawable/ic_button_bg"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>
