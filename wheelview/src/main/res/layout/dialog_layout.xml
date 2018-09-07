@@ -23,14 +23,54 @@
             android:id="@+id/v_line1"
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
-
-        <com.special.wheelview.widget.WheelView
-            android:id="@+id/wv_wheelview"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_F5EEDC"
-            android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"/>
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+            <com.special.wheelview.widget.WheelView
+                android:id="@+id/wv_wheelview"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/color_F5EEDC"/>
+            <TextView
+                android:text="年"
+                android:textColor="@color/color_895D13"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.special.wheelview.widget.WheelView
+                android:id="@+id/wv_wheelview_left"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/color_F5EEDC"/>
+            <TextView
+                android:text="月"
+                android:textColor="@color/color_895D13"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.special.wheelview.widget.WheelView
+                android:id="@+id/wv_wheelview_right"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/color_F5EEDC"/>
+            <TextView
+                android:id="@+id/tv_day_title"
+                android:text="日"
+                android:textColor="@color/color_895D13"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/v_line2"
             android:layout_width="match_parent"

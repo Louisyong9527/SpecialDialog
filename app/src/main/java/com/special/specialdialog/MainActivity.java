@@ -26,10 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         tvClick = findViewById(R.id.tv_click);
-
         tvClick.setOnClickListener(this);
-
-
 
     }
 
@@ -37,36 +34,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mDialog = new SpcialDialog(this);
 
-        mDialog.setTitle("").setItems(createArrays()).setButtonText("确定").setCancleButtonText("清空").setSelection(2).setDialogStyle(Color
-                .parseColor("#895D13")).setCount(3).show();
-
-
+        mDialog.setTitle("")
+                .setItems(1970,2050)
+                .setButtonText("确定")
+                .setCancleButtonText("清空")
+                .setDialogStyle(R.color.color_895D13)
+                .setCount(3)
+                .showDays(false)
+                .setSelection("2018年9月")
+                .show();
 
         mDialog.setOnDialogItemClickListener(new SpcialDialog.OnDialogItemClickListener() {
             @Override
-            public void onItemClick(int position, Object s,boolean clickType) {
-                Toast.makeText(MainActivity.this, s.toString(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(int positionYear, Object textYear, int positionMonth, Object textMonth, int positionDay, Object textDay, boolean clickType) {
+                Toast.makeText(MainActivity.this, textYear+"年"+textMonth+"月"+textDay+"日", Toast.LENGTH_SHORT).show();
             }
         });
 
-    }
-
-    private ArrayList<String> createArrays() {
-
-        ArrayList<String> list = new ArrayList<String>();
-
-        int yy = DateUtils.getYY();
-        int mm = DateUtils.getMM();
-
-        for (int i=1;i<=12;i++){
-            list.add((yy-1)+"年"+i+"月");
-        }
-
-        for (int i=1;i<=mm;i++){
-            list.add(yy+"年"+i+"月");
-        }
-
-        return list;
     }
 
     @Override
