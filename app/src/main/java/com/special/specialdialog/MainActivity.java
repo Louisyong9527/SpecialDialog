@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setItems(1970,2050)
                 .setButtonText("确定")
                 .setCancleButtonText("清空")
-                .setDialogStyle(R.color.color_895D13)
+                .setDialogStyle(Color.parseColor("#895D13"))
                 .setCount(3)
                 .showDays(false)
-                .setSelection("2018年9月")
+                .setSelection("2018-10")
                 .show();
 
         mDialog.setOnDialogItemClickListener(new SpcialDialog.OnDialogItemClickListener() {

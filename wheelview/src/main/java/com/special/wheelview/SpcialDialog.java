@@ -79,7 +79,8 @@ public class SpcialDialog<T> {
     private int mSelectedPosDate;
     //选择的日期
     private T mSelectedTextDate;
-
+    //是否显示日，默认显示
+    private boolean isShow=true;
 
     private Button mButtonCancle;
     private TextView mTitleDay;
@@ -87,8 +88,9 @@ public class SpcialDialog<T> {
     //起始时间
     private int start = 1970;
     private int end = 1970;
-    private ArrayList<String> listYear=new ArrayList<>();
-    private ArrayList<String> listMonth=new ArrayList<>();
+    private ArrayList<String> listYear;
+    private ArrayList<String> listMonth;
+    private ArrayList<String> listDay;
 
     public SpcialDialog(Context context) {
         mContext = context;
@@ -113,7 +115,7 @@ public class SpcialDialog<T> {
 
         mStyle = new WheelView.WheelViewStyle();
         mStyle.textColor = WheelConstants.WHEEL_TEXT_COLOR;
-        //mStyle.selectedTextColor=R.color.gold_1;
+        mStyle.selectedTextColor=R.color.color_895D13;
         mStyle.selectedTextZoom = 1.2f;
         mStyle.textAlpha = 1.0f;
 
@@ -346,6 +348,7 @@ public class SpcialDialog<T> {
     public SpcialDialog setSelection(String date ) {
         int selectionYear=0;
         int selectionMonth=0;
+        int selectionDay=0;
 
         int[] positions = getYearMonthPosition(date);
 
@@ -354,8 +357,19 @@ public class SpcialDialog<T> {
             selectionMonth=positions[1];
         }
 
+        if (positions.length==3){
+            selectionYear=positions[0];
+            selectionMonth=positions[1];
+            selectionDay=positions[2];
+        }
+
         mWheelView.setSelection(selectionYear);
         mWheelViewLeft.setSelection(selectionMonth);
+
+        if (isShow){
+            mWheelViewRight.setSelection(selectionDay);
+        }
+
         return this;
     }
 
@@ -396,6 +410,7 @@ public class SpcialDialog<T> {
      * 设置是否显示日,默认显示日
      */
     public SpcialDialog showDays(boolean isShow) {
+        this.isShow=isShow;
         mTitleDay.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mWheelViewRight.setVisibility(isShow ? View.VISIBLE : View.GONE);
         return this;
@@ -427,10 +442,11 @@ public class SpcialDialog<T> {
             end = start;
         }
 
+        listYear = new ArrayList<String>();
+
         if (null!=listYear &&listYear.size()>0){
             listYear.clear();
         }
-
 
         for (int i = start; i <= end; i++) {
             listYear.add(i + "");
@@ -468,7 +484,7 @@ public class SpcialDialog<T> {
                 break;
         }
 
-        ArrayList listDay = new ArrayList<String>();
+        listDay = new ArrayList<String>();
 
         for (int i = 1; i <= mDayMax; i++) {
             listDay.add(i + "");
@@ -540,12 +556,17 @@ public class SpcialDialog<T> {
 
     private int[] getYearMonthPosition(String text) {
 
+        String date="";
+
         int yearPosition = 0;
         int monthPosition = 0;
+        int dayPosition=0;
 
-        if (!TextUtils.isEmpty(text)) {
-            if (text.contains("-")) {
-                String[] strings = text.split("-");
+        date=regDate(text);
+
+        if (!TextUtils.isEmpty(date)) {
+            if (date.contains("-")) {
+                String[] strings = date.split("-");
                 if (strings.length == 2) {
                     String mYear = strings[0];
                     String mMonth = strings[1];
@@ -553,31 +574,52 @@ public class SpcialDialog<T> {
                     monthPosition = getDatePosition(listMonth, mMonth);
                 }
 
-            }
-
-            if (text.contains("年")&&text.contains("月")){
-
-                String replace = text.replace("月", "");
-
-                if (!TextUtils.isEmpty(replace)){
-
-                    String[] split = replace.split("年");
-
-                    if (split.length == 2) {
-                        String mYear = split[0];
-                        String mMonth = split[1];
-                        yearPosition = getDatePosition(listYear, mYear);
-                        monthPosition = getDatePosition(listMonth, mMonth);
-                    }
+                if (strings.length == 3) {
+                    String mYear = strings[0];
+                    String mMonth = strings[1];
+                    String mDay=strings[2];
+                    yearPosition = getDatePosition(listYear, mYear);
+                    monthPosition = getDatePosition(listMonth, mMonth);
+                    dayPosition = getDatePosition(listDay, mDay);
                 }
+
+
             }
+
+        }
+        //Log.e("listYear",listYear.size()+"  yearPosition="+yearPosition+"  monthPosition="+monthPosition);
+
+        return new int[]{yearPosition,monthPosition,dayPosition};
+    }
+
+    private String  regDate(String text) {
+
+        String data=text;
+
+        if (TextUtils.isEmpty(text)){
+            return "";
         }
 
-        Log.e("listYear",listYear.size()+"  yearPosition="+yearPosition+"  monthPosition="+monthPosition);
+        if (data.contains("年")){
+
+            data = data.replace("年", "-");
+
+            if (data.contains("月")){
+
+                if (data.contains("日")){
+
+                    String var = data.replace("月", "-");
+                    data = var.replace("日", "");
+                }else {
+                    data = data.replace("月", "");
+                }
+            }
 
 
+        }
 
-        return new int[]{yearPosition,monthPosition};
+
+        return data;
     }
 
 
