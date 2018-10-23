@@ -9,5 +9,7 @@
 Step 2. Add the dependency
 
 	dependencies {
+
 	        implementation 'com.github.Louisyong9527:SpecialDialog:1.2.1'
+
 	}
